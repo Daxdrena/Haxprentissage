@@ -1,0 +1,4 @@
+-cp .
+-js build.js
+-main Main
+
