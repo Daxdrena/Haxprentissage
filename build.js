@@ -2,12 +2,12 @@
 (function () { "use strict";
 var App = function() {
 	this.warriorStock = [];
-	this.display = new Display(100,40);
+	this.display = new Display(20,10);
 	this.warriorStock = Warrior.createWarriors(this.display);
 };
 App.prototype = {
 	drawWarrior: function(w) {
-		this.display.setPixel(w.position,1);
+		this.display.setPixel(w.position,w.name.charAt(0));
 		return w;
 	}
 	,update: function() {
@@ -17,6 +17,31 @@ App.prototype = {
 		while(_g < _g1.length) {
 			var e = _g1[_g];
 			++_g;
+			e.position.x += Math.random() - 0.5;
+			e.position.y += Math.random() - 0.5;
+			if(e.position.x > this.display.width) {
+				e.position.x = this.display.width;
+			} else if(e.position.x < 0) {
+				e.position.x = 0;
+			} else if(e.position.y > this.display.height) {
+				e.position.y = this.display.height;
+			} else if(e.position.y < 0) {
+				e.position.y = 0;
+			}
+			var _g2 = 0;
+			var _g3 = this.warriorStock;
+			while(_g2 < _g3.length) {
+				var e2 = _g3[_g2];
+				++_g2;
+				if(e != e2) {
+					if(e.position == e2.position) {
+						e.attack(e2);
+						console.log(e.health);
+					} else if(e.health <= 0) {
+						HxOverrides.remove(this.warriorStock,e);
+					}
+				}
+			}
 			this.drawWarrior(e);
 		}
 		this.display.draw();
@@ -35,12 +60,11 @@ Display.prototype = {
 		var _g = total;
 		while(_g1 < _g) {
 			var i = _g1++;
-			this.pixels.push(0);
+			this.pixels.push(".");
 		}
 	}
 	,draw: function() {
 		var string = "";
-		var letter = this.name.charAt(0);
 		var _g1 = 0;
 		var _g = this.height;
 		while(_g1 < _g) {
@@ -50,14 +74,7 @@ Display.prototype = {
 			while(_g3 < _g2) {
 				var x = _g3++;
 				var v = this.pixels[y * this.width + x];
-				switch(v) {
-				case 0:
-					string += ".";
-					break;
-				case 1:
-					string += letter;
-					break;
-				}
+				string += v;
 			}
 			string += "\n";
 		}
@@ -70,6 +87,15 @@ Display.prototype = {
 			this.pixels[y * this.width + x] = value;
 		}
 	}
+};
+var HxOverrides = function() { };
+HxOverrides.remove = function(a,obj) {
+	var i = a.indexOf(obj);
+	if(i == -1) {
+		return false;
+	}
+	a.splice(i,1);
+	return true;
 };
 var Main = function() { };
 Main.main = function() {

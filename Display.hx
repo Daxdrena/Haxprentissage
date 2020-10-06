@@ -5,9 +5,8 @@ import js.Browser.document;
 class Display {
     public var width:Int;
     public var height:Int;
-    public var pixels:Array<Int>;
+    public var pixels:Array<String>;
     public var warrior:Warrior;
-    public var name:String;
 
     public function new(width, height) {
         this.width = width;
@@ -20,29 +19,24 @@ class Display {
         pixels = [];
 
         for(i in 0...total) {
-            pixels.push(0);
+            pixels.push(".");
         }
     }
 
     public function draw() {
         var string = "";
-        var letter = name.charAt(0);
 
         for(y in 0...height) {
             for(x in 0...width) {
                 var v = pixels[y * width + x];
-                switch(v) {
-                    case 0:
-                        string += ".";
-                    case 1:
-                        string += letter;
-                }
+                string += v;
             }
             string += "\n";
-        }
 
+        }
         document.getElementById("display").innerText = string;
     }
+
     public function setPixel(point, value) {
         var x = Std.int(point.x);
         var y = Std.int(point.y);
@@ -51,3 +45,19 @@ class Display {
         }
     }
 }
+
+
+// public function draw() {
+//     var string = "";
+
+//     for(y in 0...height) {
+//         for(x in 0...width) {
+//             var v = pixels[y * width + x];
+//             switch(v) {
+//                 case "0":
+//                     string += ".";
+//                 case "1":
+//                     string += "#";
+//             }
+//         }
+//         string += "\n";
