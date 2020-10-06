@@ -16,6 +16,14 @@ class App {
         return w;
     }
 
+    public function isEqual(w1, w2){
+        if (Std.int(w1.position.x) == Std.int(w2.position.x) && Std.int(w1.position.y) == Std.int(w2.position.y)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function update() {
         display.clear();
         for (e in warriorStock){
@@ -32,11 +40,12 @@ class App {
             }
             for (e2 in warriorStock){
                 if (e != e2){
-                    if (e.position == e2.position){
+                    if (isEqual(e, e2) == true){
                         e.attack(e2);
                         trace(e.health);
                     } else if (e.health <= 0){
                         warriorStock.remove(e);
+                        trace(e.name + " is gone");
                     }
                 }
             }

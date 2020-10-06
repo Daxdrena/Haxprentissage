@@ -10,6 +10,13 @@ App.prototype = {
 		this.display.setPixel(w.position,w.name.charAt(0));
 		return w;
 	}
+	,isEqual: function(w1,w2) {
+		if((w1.position.x | 0) == (w2.position.x | 0) && (w1.position.y | 0) == (w2.position.y | 0)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	,update: function() {
 		this.display.clear();
 		var _g = 0;
@@ -34,11 +41,12 @@ App.prototype = {
 				var e2 = _g3[_g2];
 				++_g2;
 				if(e != e2) {
-					if(e.position == e2.position) {
+					if(this.isEqual(e,e2) == true) {
 						e.attack(e2);
 						console.log(e.health);
 					} else if(e.health <= 0) {
 						HxOverrides.remove(this.warriorStock,e);
+						console.log(e.name + " is gone");
 					}
 				}
 			}
