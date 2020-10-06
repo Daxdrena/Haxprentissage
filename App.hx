@@ -29,20 +29,22 @@ class App {
         for (e in warriorStock){
             e.position.x += Math.random() - 0.5;
             e.position.y += Math.random() - 0.5;
-            if (e.position.x > display.width){
-                e.position.x = display.width;
+            if (e.position.x > (display.width - 1)){
+                e.position.x = display.width - 1;
             } else if (e.position.x < 0){
                 e.position.x = 0;
-            } else if (e.position.y > display.height){
-                e.position.y = display.height;
+            } else if (e.position.y > (display.height - 1)){
+                e.position.y = display.height - 1;
             } else if (e.position.y < 0){
                 e.position.y = 0;
             }
             for (e2 in warriorStock){
                 if (e != e2){
                     if (isEqual(e, e2) == true){
-                        e.attack(e2);
-                        trace(e.health);
+                        if (e.health >= 1){
+                            e.attack(e2);
+                            trace(e.health);
+                        }
                     } else if (e.health <= 0){
                         warriorStock.remove(e);
                         trace(e.name + " is gone");
