@@ -24,16 +24,18 @@ App.prototype = {
 		while(_g < _g1.length) {
 			var e = _g1[_g];
 			++_g;
-			e.position.x += Math.random() - 0.5;
-			e.position.y += Math.random() - 0.5;
-			if(e.position.x > this.display.width) {
-				e.position.x = this.display.width;
-			} else if(e.position.x < 0) {
-				e.position.x = 0;
-			} else if(e.position.y > this.display.height) {
-				e.position.y = this.display.height;
-			} else if(e.position.y < 0) {
-				e.position.y = 0;
+			if(e.health > 0) {
+				e.position.x += Math.random() - 0.5;
+				e.position.y += Math.random() - 0.5;
+				if(e.position.x > this.display.width - 1) {
+					e.position.x = this.display.width - 1;
+				} else if(e.position.x < 0) {
+					e.position.x = 0;
+				} else if(e.position.y > this.display.height - 1) {
+					e.position.y = this.display.height - 1;
+				} else if(e.position.y < 0) {
+					e.position.y = 0;
+				}
 			}
 			var _g2 = 0;
 			var _g3 = this.warriorStock;
@@ -42,11 +44,13 @@ App.prototype = {
 				++_g2;
 				if(e != e2) {
 					if(this.isEqual(e,e2) == true) {
-						e.attack(e2);
-						console.log(e.health);
-					} else if(e.health <= 0) {
-						HxOverrides.remove(this.warriorStock,e);
-						console.log(e.name + " is gone");
+						if(e.health > 0) {
+							e.attack(e2);
+							if(e2.health <= 0) {
+								HxOverrides.remove(this.warriorStock,e2);
+								console.log(e2.name + " is gone");
+							}
+						}
 					}
 				}
 			}

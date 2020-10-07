@@ -27,27 +27,29 @@ class App {
     public function update() {
         display.clear();
         for (e in warriorStock){
-            e.position.x += Math.random() - 0.5;
-            e.position.y += Math.random() - 0.5;
-            if (e.position.x > (display.width - 1)){
-                e.position.x = display.width - 1;
-            } else if (e.position.x < 0){
-                e.position.x = 0;
-            } else if (e.position.y > (display.height - 1)){
-                e.position.y = display.height - 1;
-            } else if (e.position.y < 0){
-                e.position.y = 0;
+            if (e.health > 0) {
+                e.position.x += Math.random() - 0.5;
+                e.position.y += Math.random() - 0.5;
+                if (e.position.x > (display.width - 1)){
+                    e.position.x = display.width - 1;
+                } else if (e.position.x < 0){
+                    e.position.x = 0;
+                } else if (e.position.y > (display.height - 1)){
+                    e.position.y = display.height - 1;
+                } else if (e.position.y < 0){
+                    e.position.y = 0;
+                }
             }
             for (e2 in warriorStock){
                 if (e != e2){
                     if (isEqual(e, e2) == true){
-                        if (e.health >= 1){
+                        if (e.health > 0){
                             e.attack(e2);
-                            trace(e.health);
+                            if (e2.health <= 0) {
+                                warriorStock.remove(e2);
+                                trace(e2.name + " is gone");
+                            }
                         }
-                    } else if (e.health <= 0){
-                        warriorStock.remove(e);
-                        trace(e.name + " is gone");
                     }
                 }
             }
