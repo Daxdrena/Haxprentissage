@@ -4,15 +4,22 @@ class App {
     public var display:Display;
     private var point:Point;
     public var warriorStock = [];
+    public var wallStock = [];
 
     public function new() {
         display = new Display(20, 10);
         warriorStock = Warrior.createWarriors(display);
+        wallStock = Wall.createWalls(display);
         //Fight.fight(warriorStock);
     }
 
     public function drawWarrior(w:Warrior){
         display.setPixel(w.position, w.name.charAt(0));
+        return w;
+    }
+
+    public function drawWall(w:Wall){
+        display.setPixel(w.position, w.name);
         return w;
     }
 
@@ -28,8 +35,17 @@ class App {
         display.clear();
         for (e in warriorStock){
             if (e.health > 0) {
-                e.position.x += Math.random() - 0.5;
-                e.position.y += Math.random() - 0.5;
+                var random1 = Math.random() - 0.5;
+                var random2 = Math.random() - 0.5;
+                e.position.x += random1;
+                e.position.y += random2;
+                    for (v in wallStock){
+                        if (isEqual(e, v) == true){
+                            e.position.x -= random1;
+                            e.position.y -= random2;
+                        }
+                        drawWall(v);
+                    }
                 if (e.position.x > (display.width - 1)){
                     e.position.x = display.width - 1;
                 } else if (e.position.x < 0){

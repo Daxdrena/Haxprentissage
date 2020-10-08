@@ -58,7 +58,7 @@ class Warrior{
         var shieldStock = Shield.createShields();
         var nameStock = Name.createNames();
         var warriorStock = [];
-        while (count < 10) {
+        while (count < 15) {
             var myWarrior = new Warrior(nameStock[Std.random(3001)], 100, 10, Std.random(3000), weaponStock[1], shieldStock[1], 0, new Point(Std.random(display.width), Std.random(display.height)));
             warriorStock.push(myWarrior);
             count ++;
